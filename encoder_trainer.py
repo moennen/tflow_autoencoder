@@ -3,11 +3,11 @@ Trainer
 '''
 
 from __future__ import print_function
-
-import autoencoder_model as sfm
 import matplotlib.pyplot as plt
-import sflow_synthetic_data as sfsd
 import tensorflow as tf
+
+import encoder_dataprovider as dataprovider
+import encoder_model as model
 
 #
 # Set the training parameters
@@ -15,20 +15,21 @@ import tensorflow as tf
 dropout = 0.75
 training_iters = 200000
 log_step = 10
+# data_size should be provided by the data
 data_size = [128, 128, 3]
 batch_size = 128
 
 #
 # Create training datasets
 #
-train_dataset = sfsd.read_dataset("/train_dataset_file_lst", data_size)
-sample_train_dataset = sfsd.read_dataset("/train_dataset_file_lst", data_size)
-test_dataset = smdf.read_dataset("/test_dataset_file_lst", data_size)
+train_dataset = dataprovider.read_dataset("/train_dataset_file_lst", data_size)
+sample_train_dataset = dataprovider.read_dataset("/train_dataset_file_lst", data_size)
+test_dataset = dataprovider.read_dataset("/test_dataset_file_lst", data_size)
 
 #
 # Create the model
 #
-model, cost = sfm.create_model(data_size, batch_size)
+model, cost = model.create_model(data_size, batch_size)
 
 # tf Graph input
 ref = tf.placeholder(tf.float32, shape=data_size, name="reference_image")
